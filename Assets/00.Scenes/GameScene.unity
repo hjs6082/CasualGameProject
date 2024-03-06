@@ -2394,6 +2394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linePrefab: {fileID: 4027254005647934896, guid: 5aeac66d7a2dba342b8d37b55f1e4228, type: 3}
   minDistance: 0.1
+  testChracterObject: {fileID: 1718009456}
 --- !u!4 &2007832289
 Transform:
   m_ObjectHideFlags: 0
