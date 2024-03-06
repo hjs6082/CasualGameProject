@@ -6,26 +6,46 @@ public class DrawManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject linePrefab; // LineRenderer 컴포넌트가 포함된 프리팹
-
     private List<GameObject> lines = new List<GameObject>(); // 생성된 모든 선을 관리하는 리스트
     private GameObject currentLine; // 현재 그리고 있는 선
 
     [SerializeField]
     private float minDistance = 0.1f;
+    private float drawTime = 2.0f; // 선을 그리는 데 주어진 시간 (초)
+    private float timeRemaining; // 남은 시간
+    private bool isDrawing = false; // 현재 그리고 있는지 여부
+
+    [SerializeField]
+    private GameObject testChracterObject;
+
+    void Start()
+    {
+        timeRemaining = drawTime;
+    }
 
     void Update()
     {
         DrawLine();
         RemoveLines();
+        UpdateTime();
     }
 
     private void DrawLine()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            CreateNewLine();
+            if (timeRemaining > 0)
+            {
+                CreateNewLine();
+                isDrawing = true; // 그리기 시작
+            }
         }
-        else if (Input.GetMouseButton(0) && currentLine != null)
+        else if (Input.GetMouseButtonUp(0))
+        {
+            isDrawing = false; // 그리기 중단, 시간 일시 중지
+            Debug.Log(timeRemaining);
+        }
+        else if (Input.GetMouseButton(0) && currentLine != null && isDrawing)
         {
             Vector3 currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currentPosition.z = 0f;
@@ -37,17 +57,17 @@ public class DrawManager : MonoBehaviour
     {
         currentLine = Instantiate(linePrefab, Vector3.zero, Quaternion.identity);
         lines.Add(currentLine); // 생성된 선을 리스트에 추가
-
         LineRenderer lineRenderer = currentLine.GetComponent<LineRenderer>();
         lineRenderer.positionCount = 1;
-
         Vector3 startPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        startPosition.z = 0; // Z 위치를 0으로 설정하여 2D 평면에 선을 그립니다.
+        startPosition.z = 0; // Z 위치를 0으로 설정
         lineRenderer.SetPosition(0, startPosition); // 첫 번째 위치 설정
     }
 
     private void UpdateLine(Vector3 newPosition)
     {
+        if (!isDrawing || timeRemaining <= 0) return;
+
         LineRenderer lineRenderer = currentLine.GetComponent<LineRenderer>();
         EdgeCollider2D edgeCollider = currentLine.GetComponent<EdgeCollider2D>();
 
@@ -68,10 +88,8 @@ public class DrawManager : MonoBehaviour
         }
     }
 
-
     private void RemoveLines()
     {
-        // 모든 선 삭제
         if (Input.GetKeyDown(KeyCode.K))
         {
             foreach (GameObject line in lines)
@@ -79,14 +97,41 @@ public class DrawManager : MonoBehaviour
                 Destroy(line);
             }
             lines.Clear();
+            timeRemaining = drawTime; // 시간 리셋
         }
 
-        // 마지막에 그린 선 삭제
         if (Input.GetKeyDown(KeyCode.Z) && lines.Count > 0)
         {
             GameObject lastLine = lines[lines.Count - 1];
             Destroy(lastLine);
             lines.RemoveAt(lines.Count - 1);
+            timeRemaining = drawTime; // 시간 리셋
         }
+    }
+
+    private void UpdateTime()
+    {
+        if (isDrawing && timeRemaining > 0)
+        {
+            timeRemaining -= Time.deltaTime;
+            if (timeRemaining <= 0)
+            {
+                FinishDrawing(); // 시간이 다 되었을 때 그리기 중단
+            }
+        }
+    }
+
+    private void FinishDrawing()
+    {
+        isDrawing = false; // 그리기 중단
+        timeRemaining = 0; // 시간을 0으로 설정
+        // 마지막 선을 마무리하는 추가 로직이 필요할 수 있습니다.
+
+        foreach (var line in lines)
+        {
+            line.AddComponent<Rigidbody2D>();
+        }
+
+        testChracterObject.AddComponent<Rigidbody2D>();
     }
 }
