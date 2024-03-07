@@ -1,49 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // UI 컴포넌트 사용
 
 public class DrawManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject linePrefab; // LineRenderer 컴포넌트가 포함된 프리팹
-    private List<GameObject> lines = new List<GameObject>(); // 생성된 모든 선을 관리하는 리스트
     private GameObject currentLine; // 현재 그리고 있는 선
 
     [SerializeField]
     private float minDistance = 0.1f;
-    private float drawTime = 2.0f; // 선을 그리는 데 주어진 시간 (초)
+    private float drawTime = 1.5f; // 선을 그리는 데 주어진 시간 (초)
     private float timeRemaining; // 남은 시간
     private bool isDrawing = false; // 현재 그리고 있는지 여부
 
     [SerializeField]
-    private GameObject testChracterObject;
+    private Slider timeSlider; // 슬라이더 컴포넌트 참조
+
+    [SerializeField]
+    private GameObject characterObject; // 캐릭터 오브젝트
 
     void Start()
     {
         timeRemaining = drawTime;
+        timeSlider.maxValue = drawTime; // 슬라이더의 최대값 설정
+        timeSlider.value = timeRemaining; // 초기 슬라이더 값 설정
     }
 
     void Update()
     {
         DrawLine();
-        RemoveLines();
         UpdateTime();
     }
 
     private void DrawLine()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && timeRemaining > 0 && currentLine == null)
         {
-            if (timeRemaining > 0)
-            {
-                CreateNewLine();
-                isDrawing = true; // 그리기 시작
-            }
+            CreateNewLine();
+            isDrawing = true;
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            isDrawing = false; // 그리기 중단, 시간 일시 중지
-            Debug.Log(timeRemaining);
+            isDrawing = false;
+            GameStart(); // 사용자가 손을 떼었을 때 GameStart 호출
         }
         else if (Input.GetMouseButton(0) && currentLine != null && isDrawing)
         {
@@ -56,56 +57,36 @@ public class DrawManager : MonoBehaviour
     private void CreateNewLine()
     {
         currentLine = Instantiate(linePrefab, Vector3.zero, Quaternion.identity);
-        lines.Add(currentLine); // 생성된 선을 리스트에 추가
         LineRenderer lineRenderer = currentLine.GetComponent<LineRenderer>();
         lineRenderer.positionCount = 1;
         Vector3 startPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        startPosition.z = 0; // Z 위치를 0으로 설정
-        lineRenderer.SetPosition(0, startPosition); // 첫 번째 위치 설정
+        startPosition.z = 0;
+        lineRenderer.SetPosition(0, startPosition);
+        //edgeCollider.points = new Vector2[] { startPosition }; // 초기 EdgeCollider 설정
+
+        //currentLine.GetComponent<EdgeCollider2D>().edgeRadius = 0.1f; // 필요에 따라 콜라이더의 반지름 조절
     }
 
     private void UpdateLine(Vector3 newPosition)
     {
-        if (!isDrawing || timeRemaining <= 0) return;
-
         LineRenderer lineRenderer = currentLine.GetComponent<LineRenderer>();
         EdgeCollider2D edgeCollider = currentLine.GetComponent<EdgeCollider2D>();
 
-        newPosition.z = 0; // Z 위치를 2D 평면에 맞게 조정
-        if (lineRenderer.positionCount == 0 || Vector3.Distance(newPosition, lineRenderer.GetPosition(lineRenderer.positionCount - 1)) > minDistance)
+
+        newPosition.z = 0; // Z 축 값을 0으로 설정
+        if (lineRenderer.positionCount > 0 && Vector3.Distance(newPosition, lineRenderer.GetPosition(lineRenderer.positionCount - 1)) > minDistance)
         {
             lineRenderer.positionCount++;
             lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPosition);
 
-            // EdgeCollider2D를 업데이트하기 위해 LineRenderer의 모든 점을 Vector2 배열로 변환
-            Vector2[] edgePoints = new Vector2[lineRenderer.positionCount];
+            // LineRenderer의 모든 점을 EdgeCollider에 복사
+            Vector2[] points = new Vector2[lineRenderer.positionCount];
             for (int i = 0; i < lineRenderer.positionCount; i++)
             {
                 Vector3 pos = lineRenderer.GetPosition(i);
-                edgePoints[i] = new Vector2(pos.x, pos.y);
+                points[i] = new Vector2(pos.x, pos.y);
             }
-            edgeCollider.SetPoints(new List<Vector2>(edgePoints)); // EdgeCollider2D에 점들 설정
-        }
-    }
-
-    private void RemoveLines()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            foreach (GameObject line in lines)
-            {
-                Destroy(line);
-            }
-            lines.Clear();
-            timeRemaining = drawTime; // 시간 리셋
-        }
-
-        if (Input.GetKeyDown(KeyCode.Z) && lines.Count > 0)
-        {
-            GameObject lastLine = lines[lines.Count - 1];
-            Destroy(lastLine);
-            lines.RemoveAt(lines.Count - 1);
-            timeRemaining = drawTime; // 시간 리셋
+            edgeCollider.points = points; // EdgeCollider2D 업데이트
         }
     }
 
@@ -116,22 +97,20 @@ public class DrawManager : MonoBehaviour
             timeRemaining -= Time.deltaTime;
             if (timeRemaining <= 0)
             {
-                FinishDrawing(); // 시간이 다 되었을 때 그리기 중단
+                isDrawing = false;
+                GameStart(); // 시간이 초과되었을 때 GameStart 호출
             }
         }
+        timeSlider.value = timeRemaining; // 슬라이더 값 업데이트
     }
 
-    private void FinishDrawing()
+    private void GameStart()
     {
-        isDrawing = false; // 그리기 중단
-        timeRemaining = 0; // 시간을 0으로 설정
-        // 마지막 선을 마무리하는 추가 로직이 필요할 수 있습니다.
-
-        foreach (var line in lines)
-        {
-            line.AddComponent<Rigidbody2D>();
-        }
-
-        testChracterObject.AddComponent<Rigidbody2D>();
+        // 여기에 GameStart 관련 로직을 구현합니다
+        currentLine.GetComponent<Rigidbody2D>().gravityScale = 1;
+        currentLine.GetComponent<EdgeCollider2D>().isTrigger = false;
+        characterObject.AddComponent<Rigidbody2D>();
+        GameManager.Instance.GameStart();
+        Debug.Log("Game Start!");
     }
 }
