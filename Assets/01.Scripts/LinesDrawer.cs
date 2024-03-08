@@ -18,7 +18,7 @@ public class LinesDrawer : MonoBehaviour
 	Camera cam;
 
 	// 시간 관리를 위한 변수들 추가
-	public float drawTimeLimit = 5f; // 선을 그릴 수 있는 총 시간
+	public float drawTimeLimit = 2f; // 선을 그릴 수 있는 총 시간
 	private float timeRemaining; // 남은 시간
 	public Slider timeSlider; // 시간을 보여줄 슬라이더
 
@@ -52,7 +52,7 @@ public class LinesDrawer : MonoBehaviour
                 {
                     canDraw = false;
                     EndDraw();
-                    Debug.Log("시간이 종료되었습니다.");
+                    GameManager.Instance.GameStart();
                 }
             }
         }
@@ -60,6 +60,7 @@ public class LinesDrawer : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             EndDraw();
+            GameManager.Instance.GameStart();
         }
 
         if (!canDraw && Input.GetMouseButtonDown(0) && currentLine == null)
