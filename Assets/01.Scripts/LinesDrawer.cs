@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class LinesDrawer : MonoBehaviour
 {
-
 	public GameObject linePrefab;
 	public LayerMask cantDrawOverLayer;
 	int cantDrawOverLayerIndex;
@@ -29,18 +28,19 @@ public class LinesDrawer : MonoBehaviour
 	{
 		cam = Camera.main;
 		cantDrawOverLayerIndex = LayerMask.NameToLayer("CantDrawOver");
-		timeRemaining = drawTimeLimit; // 남은 시간 초기화
+        drawTimeLimit = GameManager.Instance.nowStage.clearTime;
+        timeRemaining = drawTimeLimit; // 남은 시간 초기화
 		timeSlider.maxValue = drawTimeLimit; // 슬라이더의 최대값 설정
 		timeSlider.value = timeRemaining; // 슬라이더 초기값 설정
 	}
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && canDraw && currentLine == null)
+        if (Input.GetMouseButtonDown(0) && canDraw && currentLine == null && !GameManager.Instance.isLive)
         {
             BeginDraw();
         }
-        else if (currentLine != null)
+        else if (currentLine != null && !GameManager.Instance.isLive)
         {
             if (canDraw)
             {
@@ -57,7 +57,7 @@ public class LinesDrawer : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && !GameManager.Instance.isLive)
         {
             EndDraw();
             GameManager.Instance.GameStart();
