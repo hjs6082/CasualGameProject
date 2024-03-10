@@ -7,7 +7,7 @@ public class Bee : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private Transform player;
     [SerializeField] private float pushForce = 500f; // 벌이 밀려나는 힘
-    [SerializeField] private float obstaclePushForce = 200f; // 장애물을 미는 힘
+    public float obstaclePushForce = 200f; // 장애물을 미는 힘
 
     private Rigidbody2D rb;
     private Vector2 movement;

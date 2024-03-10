@@ -139,4 +139,4 @@ MonoBehaviour:
   moveSpeed: 2
   player: {fileID: 0}
   pushForce: 500
-  obstaclePushForce: 1000
+  obstaclePushForce: 200
