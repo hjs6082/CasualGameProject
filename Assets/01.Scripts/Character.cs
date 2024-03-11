@@ -8,10 +8,8 @@ public class Character : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("´ê¾Ò½À´Ï´Ù.");
         if (collision.gameObject.tag == "Bee")
         {
-            Debug.Log("¹úÀÌ ´ê¾Ò½À´Ï´Ù.");
             touchIndex++;
         }
     }

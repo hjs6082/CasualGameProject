@@ -26,11 +26,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-
-        Time.timeScale = 0;
         stage = Resources.Load<Stage>("SO/Stage");
-        UIManager.Instance.OnStage();
         nowStage = stage.stageDatas[0];
+        UIManager.Instance.OnStage();
         foreach (Transform child in onStageTransform)
         {
             Destroy(child.gameObject);
@@ -73,7 +71,7 @@ public class GameManager : MonoBehaviour
 
     public void GameClear()
     {
-
+        
     }
 
     public void NextStage()

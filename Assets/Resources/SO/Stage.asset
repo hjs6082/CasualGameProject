@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageDatas:
   - stageIndex: 1
-    beeIndex: 6
+    beeIndex: 3
     getStageCoinIndex: 20
     clearTime: 10
-    beeAtk: 200
+    beeAtk: 50
     stagePrefab: {fileID: 6665356129211465576, guid: 3d5bb0fc4660a1f44b1de82ea96898d7, type: 3}
   - stageIndex: 2
     beeIndex: 3
