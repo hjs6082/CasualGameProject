@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
 
     public void GameClear()
     {
-        
+        Time.timeScale = 0;
     }
 
     public void NextStage()
