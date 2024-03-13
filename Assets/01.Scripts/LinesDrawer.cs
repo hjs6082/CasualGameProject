@@ -110,4 +110,23 @@ public class LinesDrawer : MonoBehaviour
         }
         canDraw = false;
     }
+
+    public void ClearLine()
+    {
+        // 현재 화면에 있는 모든 Line 객체를 찾아서 파괴합니다.
+        foreach (Transform child in transform)
+        {
+            // Line 컴포넌트가 있는 자식 객체를 찾아 파괴합니다.
+            if (child.GetComponent<Line>() != null)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        // 선을 그릴 수 있는 상태로 리셋합니다.
+        currentLine = null;
+        canDraw = true;
+        timeRemaining = drawTimeLimit; // 남은 시간도 초기화
+        timeSlider.value = timeRemaining; // 슬라이더의 값을 초기 상태로 설정
+    }
 }

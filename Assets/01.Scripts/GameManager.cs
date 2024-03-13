@@ -27,27 +27,13 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         stage = Resources.Load<Stage>("SO/Stage");
-        nowStage = stage.stageDatas[0];
-        UIManager.Instance.OnStage();
-        foreach (Transform child in onStageTransform)
-        {
-            Destroy(child.gameObject);
-        }
-        Instantiate(nowStage.stagePrefab, onStageTransform);
-        player = FindObjectOfType<Character>().gameObject;
+        SetStage(0); //TODO: 저장된 스테이지로 
     }
 
     // Update is called once per frame
     void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            NextStage();
-        }
-        if(Input.GetKeyDown(KeyCode.O))
-        {
-            PrevStage();
-        }
+    { 
+
     }
 
     public void GameStart()
@@ -66,29 +52,19 @@ public class GameManager : MonoBehaviour
     {
         isLive = false;
         Time.timeScale = 0;
-        //UIManager.Instance.OnGameOverPanel();
+        StartCoroutine(GameOverCoroutine());
     }
 
+    // TODO: O 표시 및 소리 추가
     public void GameClear()
     {
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
+        UIManager.Instance.OnGameClearPanel(nowStage);
     }
 
-    public void NextStage()
+    public void SetStage(int stageIndex)
     {
-        UIManager.Instance.OnStage();
-        nowStage = stage.stageDatas[nowStage.stageIndex];
-        foreach (Transform child in onStageTransform)
-        {
-            Destroy(child.gameObject);
-        }
-        Instantiate(nowStage.stagePrefab, onStageTransform);
-        player = FindObjectOfType<Character>().gameObject;
-    }
-
-    public void PrevStage()
-    {
-        nowStage = stage.stageDatas[nowStage.stageIndex - 1];
+        nowStage = stage.stageDatas[stageIndex];
         UIManager.Instance.OnStage();
         foreach (Transform child in onStageTransform)
         {
@@ -96,5 +72,12 @@ public class GameManager : MonoBehaviour
         }
         Instantiate(nowStage.stagePrefab, onStageTransform);
         player = FindObjectOfType<Character>().gameObject;
+    }
+
+    //추후 X음성과 표시로 변경
+    IEnumerator GameOverCoroutine()
+    {
+        yield return new WaitForSeconds(0.4f);
+        SetStage(nowStage.stageIndex--);
     }
 }

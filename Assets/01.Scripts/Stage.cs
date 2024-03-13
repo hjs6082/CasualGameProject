@@ -15,6 +15,7 @@ public class StageData
     public int beeIndex;
     public int getStageCoinIndex;
     public int clearTime;
+    public int coinIndex;
     public float beeAtk;
     public GameObject stagePrefab;
 }

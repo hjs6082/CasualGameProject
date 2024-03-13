@@ -36,7 +36,7 @@ public class Timer : MonoBehaviour
         }
         else
         {
-            GameManager.Instance.GameOver();
+            GameManager.Instance.GameClear();
             isStart = false;
         }
     }

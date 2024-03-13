@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
+using UnityEngine.UI;
 
 public class ResultPanelItem : MonoBehaviour
 {
@@ -13,6 +15,17 @@ public class ResultPanelItem : MonoBehaviour
     public float delayBetweenStars = 0.5f; // 별들 사이의 애니메이션 지연 시간
     public AudioClip impactSound; // 박힐 때 재생할 효과음
     private AudioSource audioSource; // 오디오 소스 컴포넌트
+
+    [SerializeField]
+    private TextMeshProUGUI levelText;
+    [SerializeField]
+    private TextMeshProUGUI coinText;
+    [SerializeField]
+    private Button x2ClaimButton;
+    [SerializeField]
+    private Button claimButton;
+    [SerializeField]
+    private Button retryButton;
 
     void Start()
     {
@@ -41,5 +54,13 @@ public class ResultPanelItem : MonoBehaviour
         {
             audioSource.PlayOneShot(impactSound); // 효과음 재생
         }
+    }
+
+    public void SetItem(StageData stageData)
+    {
+        levelText.text = "Level " + stageData.stageIndex;
+        coinText.text = "x " + stageData.coinIndex;
+        retryButton.onClick.AddListener(() => { GameManager.Instance.SetStage(stageData.stageIndex - 1); Destroy(this.gameObject); });
+        claimButton.onClick.AddListener(() => { GameManager.Instance.SetStage(stageData.stageIndex); Destroy(this.gameObject); });
     }
 }
