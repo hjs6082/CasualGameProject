@@ -8,24 +8,34 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
     [SerializeField]
+    private Transform uiCanvasTransform;
+    [SerializeField]
     private TextMeshProUGUI level_Text;
-
+    [SerializeField]
+    private TextMeshProUGUI timerText;
+    [SerializeField]
+    private LinesDrawer linesDrawer;
 
     [SerializeField]
     private GameObject resultPanelPrefab;
+
+
 
     public void Awake()
     {
         Instance = this;
     }
 
-    public void OnGameOverPanel()
+    public void OnGameClearPanel(StageData stageData)
     {
-        //resultPanelPrefab.GetComponent<ResultPanelItem>().SetItem();
+        GameObject resultPanel = Instantiate(resultPanelPrefab, uiCanvasTransform);
+        resultPanel.GetComponent<ResultPanelItem>().SetItem(stageData);
     }
 
     public void OnStage()
     {
         level_Text.text = "Level " + GameManager.Instance.nowStage.stageIndex;
+        timerText.text = GameManager.Instance.nowStage.clearTime.ToString();
+        linesDrawer.ClearLine();
     }
 }
