@@ -2897,7 +2897,7 @@ GameObject:
   - component: {fileID: 6908690966139072808}
   - component: {fileID: 6908690966139072815}
   - component: {fileID: 7095194787873477484}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: honeycomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
