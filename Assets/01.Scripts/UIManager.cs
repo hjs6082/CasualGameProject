@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,12 +14,11 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI level_Text;
     [SerializeField]
     private TextMeshProUGUI timerText;
-    [SerializeField]
-    private LinesDrawer linesDrawer;
 
     [SerializeField]
     private GameObject resultPanelPrefab;
 
+    public bool isOnUI;
 
 
     public void Awake()
@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
 
     public void OnGameClearPanel(StageData stageData)
     {
+        isOnUI = true;
         GameObject resultPanel = Instantiate(resultPanelPrefab, uiCanvasTransform);
         resultPanel.GetComponent<ResultPanelItem>().SetItem(stageData);
     }
@@ -36,6 +37,15 @@ public class UIManager : MonoBehaviour
     {
         level_Text.text = "Level " + GameManager.Instance.nowStage.stageIndex;
         timerText.text = GameManager.Instance.nowStage.clearTime.ToString();
-        linesDrawer.ClearLine();
+    }
+
+    public void OnExit()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void OnEnter()
+    {
+        SceneManager.LoadScene("GameScene");
     }
 }
