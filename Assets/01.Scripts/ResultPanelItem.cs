@@ -60,7 +60,27 @@ public class ResultPanelItem : MonoBehaviour
     {
         levelText.text = "Level " + stageData.stageIndex;
         coinText.text = "x " + stageData.coinIndex;
-        retryButton.onClick.AddListener(() => { GameManager.Instance.SetStage(stageData.stageIndex - 1); Destroy(this.gameObject); });
-        claimButton.onClick.AddListener(() => { GameManager.Instance.SetStage(stageData.stageIndex); Destroy(this.gameObject); });
+        retryButton.onClick.AddListener(() => { GameManager.Instance.SetStage(stageData.stageIndex - 1); Destroy(this.gameObject); UIManager.Instance.isOnUI = false; });
+        claimButton.onClick.AddListener(() => { GameManager.Instance.SetStage(stageData.stageIndex); Destroy(this.gameObject); UIManager.Instance.isOnUI = false; });
+        foreach (var star in stars)
+        {
+            star.gameObject.GetComponent<Image>().color = Color.white;
+        }
+        switch (GameManager.Instance.getStar)
+        {
+            case 0:
+                foreach (var star in stars)
+                {
+                    star.gameObject.GetComponent<Image>().color = Color.black;
+                }
+                break;
+            case 1:
+                stars[stars.Length - 1].gameObject.GetComponent<Image>().color = Color.black;
+                stars[stars.Length - 2].gameObject.GetComponent<Image>().color = Color.black;
+                break;
+            case 2:
+                stars[stars.Length - 1].gameObject.GetComponent<Image>().color = Color.black;
+                break;
+        }
     }
 }

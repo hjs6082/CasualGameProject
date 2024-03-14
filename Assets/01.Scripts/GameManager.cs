@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField]
+    private LinesDrawer linesDrawer;
+    [SerializeField]
     private Transform spawnBeePosition;
     [SerializeField]
     private Transform onStageTransform;
@@ -18,6 +20,8 @@ public class GameManager : MonoBehaviour
     
     [SerializeField]
     private int beeSpawnIndex; //나중에 Scriptable 오브젝트로 스테이지의 정보를 가져와서 소환수를 바꿀것
+
+    public int getStar;
 
     public bool isLive; //게임이 시작했는지
     public Stage stage;
@@ -33,7 +37,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     { 
-
     }
 
     public void GameStart()
@@ -60,12 +63,16 @@ public class GameManager : MonoBehaviour
     {
         //Time.timeScale = 0;
         UIManager.Instance.OnGameClearPanel(nowStage);
+        isLive = false;
     }
 
     public void SetStage(int stageIndex)
     {
+        getStar = 0;
+        linesDrawer.ClearLine();
         nowStage = stage.stageDatas[stageIndex];
         UIManager.Instance.OnStage();
+        linesDrawer.ResetStar();
         foreach (Transform child in onStageTransform)
         {
             Destroy(child.gameObject);
