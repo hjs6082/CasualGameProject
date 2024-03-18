@@ -17,13 +17,34 @@ MonoBehaviour:
     beeIndex: 3
     getStageCoinIndex: 20
     clearTime: 3
-    coinIndex: 0
+    coinIndex: 10
     beeAtk: 20
     stagePrefab: {fileID: 6665356129211465576, guid: 3d5bb0fc4660a1f44b1de82ea96898d7, type: 3}
   - stageIndex: 2
     beeIndex: 3
     getStageCoinIndex: 20
     clearTime: 7
-    coinIndex: 0
+    coinIndex: 20
     beeAtk: 200
     stagePrefab: {fileID: 2831067851707018904, guid: 27ec651db503528498e31e1b4c4197b1, type: 3}
+  - stageIndex: 3
+    beeIndex: 3
+    getStageCoinIndex: 30
+    clearTime: 5
+    coinIndex: 20
+    beeAtk: 30
+    stagePrefab: {fileID: 7122002213261220647, guid: 48809749684191d46bcea5a9f498f351, type: 3}
+  - stageIndex: 4
+    beeIndex: 2
+    getStageCoinIndex: 30
+    clearTime: 5
+    coinIndex: 20
+    beeAtk: 30
+    stagePrefab: {fileID: 6460050599330212866, guid: 1aceed2631c9bd643baa28f6bc97b6c0, type: 3}
+  - stageIndex: 5
+    beeIndex: 2
+    getStageCoinIndex: 30
+    clearTime: 5
+    coinIndex: 20
+    beeAtk: 30
+    stagePrefab: {fileID: 8522601573255641229, guid: b5c308ba91f1b2e4b984e5866f8a9ca9, type: 3}
