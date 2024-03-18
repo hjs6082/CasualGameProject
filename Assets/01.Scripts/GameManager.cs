@@ -36,6 +36,13 @@ public class GameManager : MonoBehaviour
         Instance = this;
         stage = Resources.Load<Stage>("SO/Stage");
         SetStage(0); //TODO: 저장된 스테이지로 
+
+        // 원하는 해상도로 설정합니다. 예: 너비 900, 높이 1600
+        int width = 900;
+        int height = 1600;
+
+        // 풀스크린 모드를 비활성화하고, 위에서 지정한 해상도로 게임을 시작합니다.
+        Screen.SetResolution(width, height, false);
     }
 
     // Update is called once per frame
@@ -89,6 +96,7 @@ public class GameManager : MonoBehaviour
         }
         Instantiate(nowStage.stagePrefab, onStageTransform);
         player = FindObjectOfType<Character>().gameObject;
+        linesDrawer.gameObject.SetActive(true);
     }
 
     private void SetGameOverStage()
@@ -103,6 +111,7 @@ public class GameManager : MonoBehaviour
 
     private void PlayClearCheckAnimation(Image targetImage, TweenCallback onCompleteAction)
     {
+        targetImage.gameObject.GetComponent<AudioSource>().Play();
         // DOTween 애니메이션 Sequence 생성
         Sequence sequence = DOTween.Sequence();
 

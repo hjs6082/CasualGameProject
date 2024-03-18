@@ -96,8 +96,18 @@ public class LinesDrawer : MonoBehaviour
 
     void Draw()
     {
-        Vector2 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.CircleCast(mousePosition, lineWidth / 3f, Vector2.zero, 1f, cantDrawOverLayer);
+        Vector3 screenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, cam.nearClipPlane);
+        Vector3 mousePosition = cam.ScreenToWorldPoint(screenPosition);
+        mousePosition.z = 0; 
+
+        // 화면 경계를 넘어가지 않도록 마우스 위치를 제한
+        Vector3 viewportPosition = cam.WorldToViewportPoint(mousePosition);
+        viewportPosition.x = Mathf.Clamp(viewportPosition.x, 0f, 1f);
+        viewportPosition.y = Mathf.Clamp(viewportPosition.y, 0f, 1f);
+        Vector3 clampedWorldPosition = cam.ViewportToWorldPoint(viewportPosition);
+        clampedWorldPosition.z = 0; 
+
+        RaycastHit2D hit = Physics2D.CircleCast(clampedWorldPosition, lineWidth / 3f, Vector2.zero, 1f, cantDrawOverLayer);
 
         if (hit)
         {
@@ -105,9 +115,10 @@ public class LinesDrawer : MonoBehaviour
         }
         else
         {
-            currentLine.AddPoint(mousePosition);
+            currentLine.AddPoint(clampedWorldPosition);
         }
     }
+
 
     void EndDraw()
     {
@@ -144,6 +155,7 @@ public class LinesDrawer : MonoBehaviour
         canDraw = true;
         timeRemaining = drawTimeLimit; // 남은 시간도 초기화
         timeSlider.value = timeRemaining; // 슬라이더의 값을 초기 상태로 설정
+        this.gameObject.SetActive(false);
     }
 
     public void ResetStar()
