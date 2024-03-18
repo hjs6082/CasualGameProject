@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    [SerializeField]
+    private Image[] clearCheckImages;
     [SerializeField]
     private LinesDrawer linesDrawer;
     [SerializeField]
@@ -54,16 +58,17 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         isLive = false;
-        Time.timeScale = 0;
-        StartCoroutine(GameOverCoroutine());
+        timer.isStart = false;
+        //Time.timeScale = 0;
+        PlayClearCheckAnimation(clearCheckImages[0], SetGameOverStage);
     }
 
     // TODO: O 표시 및 소리 추가
     public void GameClear()
     {
         //Time.timeScale = 0;
-        UIManager.Instance.OnGameClearPanel(nowStage);
         isLive = false;
+        PlayClearCheckAnimation(clearCheckImages[1], SetGameClearStage);
     }
 
     public void SetStage(int stageIndex)
@@ -72,19 +77,40 @@ public class GameManager : MonoBehaviour
         linesDrawer.ClearLine();
         nowStage = stage.stageDatas[stageIndex];
         UIManager.Instance.OnStage();
+        timer.ResetTimer(nowStage.clearTime);
         linesDrawer.ResetStar();
         foreach (Transform child in onStageTransform)
         {
             Destroy(child.gameObject);
         }
+        foreach (var clearCheckImage in clearCheckImages)
+        {
+            clearCheckImage.transform.localScale = Vector3.zero;
+        }
         Instantiate(nowStage.stagePrefab, onStageTransform);
         player = FindObjectOfType<Character>().gameObject;
     }
 
-    //추후 X음성과 표시로 변경
-    IEnumerator GameOverCoroutine()
+    private void SetGameOverStage()
+    { 
+        SetStage(nowStage.stageIndex - 1);
+    }
+
+    private void SetGameClearStage()
     {
-        yield return new WaitForSeconds(0.4f);
-        SetStage(nowStage.stageIndex--);
+        UIManager.Instance.OnGameClearPanel(nowStage);
+    }
+
+    private void PlayClearCheckAnimation(Image targetImage, TweenCallback onCompleteAction)
+    {
+        // DOTween 애니메이션 Sequence 생성
+        Sequence sequence = DOTween.Sequence();
+
+        // 먼저 스케일을 0에서 조금 큰 값으로 변경
+        sequence.Append(targetImage.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.5f));
+
+        // 그 다음 원래 스케일인 1로 변경
+        sequence.Append(targetImage.transform.DOScale(Vector3.one, 0.25f));
+        sequence.OnComplete(onCompleteAction); // 애니메이션이 끝난 후 실행할 액션
     }
 }
