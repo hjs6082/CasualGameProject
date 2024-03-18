@@ -64,7 +64,6 @@ public class LinesDrawer : MonoBehaviour
                 {
                     canDraw = false;
                     EndDraw();
-                    Debug.Log("@34");
                     GameManager.Instance.GameStart();
                 }
             }

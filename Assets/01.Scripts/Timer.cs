@@ -24,6 +24,14 @@ public class Timer : MonoBehaviour
         isStart = true;
     }
 
+    public void ResetTimer(float time)
+    {
+        this.time = time;
+        this.maxTime = time; // 타이머 시작 시 최대 시간 설정
+        timeText.text = time.ToString();
+        slider.fillAmount = 1f; // 타이머 시작 시 slider를 전체로 채움
+    }
+
     private void Update()
     {
         if (!isStart) return;
