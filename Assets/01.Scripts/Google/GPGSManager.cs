@@ -11,7 +11,26 @@ public class GPGSManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
+        PlayGamesPlatform.Activate();
+        SecondLogin();
+    }
+
+    public void SecondLogin()
+    {
+        if(PlayGamesPlatform.Instance.localUser.authenticated == false)
+        {
+            Social.localUser.Authenticate((bool sucess) =>
+            {
+                if (sucess)
+                {
+                    logText.text = $"{Social.localUser.id}\n {Social.localUser.userName}";
+                }
+                else
+                {
+                    logText.text = "Failed";
+                }
+            });
+        }
     }
 
     public void Login()
