@@ -1,27 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraResolution : MonoBehaviour
 {
-    void Start()
+    private int ScreenSizeX = 0;
+    private int ScreenSizeY = 0;
+
+    private void RescaleCamera()
     {
+        if (Screen.width == ScreenSizeX && Screen.height == ScreenSizeY) return;
+
+        float targetaspect = 9.0f / 16.0f;
+        float windowaspect = (float)Screen.width / (float)Screen.height;
+        float scaleheight = windowaspect / targetaspect;
         Camera camera = GetComponent<Camera>();
-        Rect rect = camera.rect;
-        float scaleheight = ((float)Screen.width / Screen.height) / ((float)9 / 16); // (가로 / 세로)
-        float scalewidth = 1f / scaleheight;
-        if (scaleheight < 1)
+
+        if (scaleheight < 1.0f)
         {
+            Rect rect = camera.rect;
+            rect.width = 1.0f;
             rect.height = scaleheight;
-            rect.y = (1f - scaleheight) / 2f;
+            rect.x = 0;
+            rect.y = (1.0f - scaleheight) / 2.0f;
+            camera.rect = rect;
         }
         else
         {
+            float scalewidth = 1.0f / scaleheight;
+            Rect rect = camera.rect;
             rect.width = scalewidth;
-            rect.x = (1f - scalewidth) / 2f;
+            rect.height = 1.0f;
+            rect.x = (1.0f - scalewidth) / 2.0f;
+            rect.y = 0;
+            camera.rect = rect;
         }
-        camera.rect = rect;
+
+        ScreenSizeX = Screen.width;
+        ScreenSizeY = Screen.height;
     }
 
-    void OnPreCull() => GL.Clear(true, true, Color.black);
+    void Start()
+    {
+        RescaleCamera();
+    }
+
+    void Update()
+    {
+        RescaleCamera();
+    }
+
+    void OnPreCull()
+    {
+        if (Application.isEditor) return;
+
+        Camera.main.rect = new Rect(0, 0, 1, 1);
+        GL.Clear(true, true, Color.black); // Clears the screen to black
+
+        Camera.main.rect = GetComponent<Camera>().rect;
+    }
 }
