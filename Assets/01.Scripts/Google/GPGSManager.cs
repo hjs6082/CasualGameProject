@@ -32,7 +32,7 @@ public class GPGSManager : MonoBehaviour
             });
         }
     }
-
+/*
     public void Login()
     {
         PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
@@ -56,5 +56,5 @@ public class GPGSManager : MonoBehaviour
             logText.text = "Login Fail";
         }
     }
-
+*/
 }
