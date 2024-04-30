@@ -18,4 +18,5 @@ public class StageData
     public int coinIndex;
     public float beeAtk;
     public GameObject stagePrefab;
+    public bool isClear;
 }
