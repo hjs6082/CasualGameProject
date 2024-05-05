@@ -50,13 +50,16 @@ public class LinesDrawer : MonoBehaviour
         {
             BeginDraw();
         }
-        else if (currentLine != null && !GameManager.Instance.isLive)
+
+        if (currentLine != null && !GameManager.Instance.isLive)
         {
             if (canDraw)
             {
                 Draw();
-                timeRemaining -= Time.deltaTime;
-                timeSlider.value = timeRemaining;
+
+                // 시간 감소 로직을 Draw 메서드로 이동
+                // timeRemaining -= Time.deltaTime;
+                // timeSlider.value = timeRemaining;
 
                 UpdateStarRating();
 
@@ -98,14 +101,13 @@ public class LinesDrawer : MonoBehaviour
     {
         Vector3 screenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, cam.nearClipPlane);
         Vector3 mousePosition = cam.ScreenToWorldPoint(screenPosition);
-        mousePosition.z = 0; 
+        mousePosition.z = 0;
 
-        // 화면 경계를 넘어가지 않도록 마우스 위치를 제한
         Vector3 viewportPosition = cam.WorldToViewportPoint(mousePosition);
         viewportPosition.x = Mathf.Clamp(viewportPosition.x, 0f, 1f);
         viewportPosition.y = Mathf.Clamp(viewportPosition.y, 0f, 1f);
         Vector3 clampedWorldPosition = cam.ViewportToWorldPoint(viewportPosition);
-        clampedWorldPosition.z = 0; 
+        clampedWorldPosition.z = 0;
 
         RaycastHit2D hit = Physics2D.CircleCast(clampedWorldPosition, lineWidth / 3f, Vector2.zero, 1f, cantDrawOverLayer);
 
@@ -115,7 +117,13 @@ public class LinesDrawer : MonoBehaviour
         }
         else
         {
+            int prevCount = currentLine.pointsCount;
             currentLine.AddPoint(clampedWorldPosition);
+            if (currentLine.pointsCount > prevCount) // 점이 추가됐는지 확인
+            {
+                timeRemaining -= Time.deltaTime; // 여기에서 시간 감소
+                timeSlider.value = timeRemaining;
+            }
         }
     }
 
