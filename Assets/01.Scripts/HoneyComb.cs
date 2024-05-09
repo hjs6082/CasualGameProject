@@ -12,7 +12,7 @@ public class HoneyComb : MonoBehaviour
         for (int i = 0; i <= beeSpawnIndex; i++)
         {
             GameObject bee = Instantiate(beePrefab, this.transform);
-            bee.GetComponent<Bee>().obstaclePushForce = force;
+            bee.GetComponent<Bee>().obstaclePushForce = force; //미는 힘 적용
         }
     }
 }
