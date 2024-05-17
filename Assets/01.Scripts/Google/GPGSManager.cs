@@ -15,7 +15,6 @@ public class GPGSManager : MonoBehaviour
         SecondLogin();
     }
 
-    //GPGS ¿¬µ¿ 
     public void SecondLogin()
     {
         if(PlayGamesPlatform.Instance.localUser.authenticated == false)
