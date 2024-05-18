@@ -23,10 +23,12 @@ public class GPGSManager : MonoBehaviour
             {
                 if (sucess)
                 {
+                    //로그 텍스트 설정
                     logText.text = $"{Social.localUser.id}\n {Social.localUser.userName}";
                 }
                 else
                 {
+                    //실패
                     logText.text = "Failed";
                 }
             });
