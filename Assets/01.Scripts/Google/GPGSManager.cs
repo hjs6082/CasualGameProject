@@ -35,6 +35,7 @@ public class GPGSManager : MonoBehaviour
         }
     }
 /*
+    //사용 불가 
     public void Login()
     {
         PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
