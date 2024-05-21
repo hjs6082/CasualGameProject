@@ -5,6 +5,7 @@ public class CameraResolution : MonoBehaviour
     private int ScreenSizeX = 0;
     private int ScreenSizeY = 0;
 
+    //카메라 재설정
     private void RescaleCamera()
     {
         if (Screen.width == ScreenSizeX && Screen.height == ScreenSizeY) return;
