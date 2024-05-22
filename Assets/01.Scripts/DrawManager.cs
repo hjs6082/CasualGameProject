@@ -21,6 +21,7 @@ public class DrawManager : MonoBehaviour
     [SerializeField]
     private GameObject characterObject; // 캐릭터 오브젝트
 
+    //슬라이더 값 설정
     void Start()
     {
         timeRemaining = drawTime;
