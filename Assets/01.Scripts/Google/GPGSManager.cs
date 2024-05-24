@@ -15,6 +15,7 @@ public class GPGSManager : MonoBehaviour
         SecondLogin();
     }
 
+    //TODO: 로그인 시스템 연동까진 확인, 추가 확인 필요
     public void SecondLogin()
     {
         if(PlayGamesPlatform.Instance.localUser.authenticated == false)
