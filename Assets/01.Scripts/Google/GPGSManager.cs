@@ -9,6 +9,7 @@ public class GPGSManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI logText;
     // Start is called before the first frame update
+    //추가 로그인 확인필요
     void Start()
     {
         PlayGamesPlatform.Activate();
