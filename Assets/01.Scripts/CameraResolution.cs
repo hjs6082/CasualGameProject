@@ -49,6 +49,7 @@ public class CameraResolution : MonoBehaviour
         RescaleCamera();
     }
 
+    //안드로이드 실행시 화면을 맞춰줌
     void OnPreCull()
     {
         if (Application.isEditor) return;
