@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Explane : UI를 레터박스를 만들어 핸드폰 해상도에 맞추기위한 스크립트
 public class SafeArea : MonoBehaviour
 {
     private RectTransform panelSafeArea;
