@@ -24,6 +24,7 @@ public class SafeArea : MonoBehaviour
         }
     }
 
+    //SafeArea »ý¼º
     private void ApplySafeArea()
     {
         if (panelSafeArea == null)
