@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; // UI 컴포넌트 사용
 
+//DrawManager : 그리기를 관리하는 매니저
 public class DrawManager : MonoBehaviour
 {
     [SerializeField]
