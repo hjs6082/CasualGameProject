@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
     {
         getStar = 0;
         linesDrawer.ClearLine();
-        nowStage = stage.stageDatas[stageIndex];
+        //nowStage = stage.stageDatas[stageIndex];
         UIManager.Instance.OnStage();
         timer.ResetTimer(nowStage.clearTime);
         linesDrawer.ResetStar();
