@@ -17,10 +17,10 @@ public class ChapterUIItem : MonoBehaviour
     [SerializeField]
     public List<StageData> chapterStageData;
 
-    public void SetItem(Sprite mapSprite, string chapter, string star, bool isAllStar, ChapterData chapterData)
+    public void SetItem(Sprite mapSprite, string chapterOrStage, string star, bool isAllStar, ChapterData chapterData, bool isChapter)
     {
         mapImage.sprite = mapSprite;
-        chapterText.text = chapter;
+        chapterText.text = isChapter ? "Chapter " + chapterOrStage : "Stage " + chapterOrStage;
         starText.text = star;
 
         Color color = isAllStar ? Color.yellow : Color.white;
