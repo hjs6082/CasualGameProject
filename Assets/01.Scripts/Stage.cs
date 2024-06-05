@@ -5,6 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObject/Stage", order = 1)]
 public class Stage : ScriptableObject
 {
+    public List<ChapterData> chapterDatas;
+}
+
+[System.Serializable]
+public class ChapterData
+{
+    public int chapterIndex;
     public List<StageData> stageDatas;
 }
 
@@ -18,5 +25,7 @@ public class StageData
     public int coinIndex;
     public float beeAtk;
     public GameObject stagePrefab;
+    public Sprite stageSprite;
+    public int getStar;
     public bool isClear;
 }
