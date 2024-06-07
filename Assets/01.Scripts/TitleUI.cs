@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TitleUI : MonoBehaviour
 {
@@ -105,15 +106,15 @@ public class TitleUI : MonoBehaviour
         {
             GameObject stagePrefab = Instantiate(chapterObject, stageTransform);
             currentStageObjects.Add(stagePrefab);
-            string stageNumber = chapterData.chapterIndex + "-" + stageData.stageIndex;
-            stagePrefab.GetComponent<ChapterUIItem>().SetItem(
+            string stageNumber = stageData.stageIndex.ToString();
+            stagePrefab.GetComponent<ChapterUIItem>().SetStageItem(
                 stageData.stageSprite,
                 stageNumber,
                 stageData.getStar + "/3", // 스테이지에서도 별 정보를 표시
-                stageData.getStar == 3,
-                chapterData,
-                false // 챕터 표시 여부를 전달
+                stageData.isClear,
+                stageData.getStar
             );
+            stagePrefab.GetComponent<Button>().onClick.AddListener(() => OnStageSelected(stageData)); // 스테이지 클릭 이벤트 추가
             chapterStageStar += stageData.getStar;
             chapterStageAllStar += 3;
         }
@@ -122,6 +123,12 @@ public class TitleUI : MonoBehaviour
         currentChapterStarText.text = chapterStageStar + "/" + chapterStageAllStar;
         Color starColor = chapterStageStar == chapterStageAllStar ? Color.yellow : Color.white;
         currentChapterStarImage.color = starColor;
+    }
+
+    private void OnStageSelected(StageData stageData)
+    {
+        GameManager.Instance.SetStage(stageData); // 선택된 스테이지 설정
+        SceneManager.LoadScene("ProtoScene"); // ProtoScene으로 씬 전환
     }
 
     public void OnClickBackButton()
@@ -136,7 +143,7 @@ public class TitleUI : MonoBehaviour
             Destroy(chapterObject);
         }
         currentChapterObjects.Clear();
-    }
+    } 
 
     public void OnClickStageBackButton()
     {
