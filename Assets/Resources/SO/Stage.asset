@@ -23,11 +23,21 @@ MonoBehaviour:
       beeAtk: 20
       stagePrefab: {fileID: 6665356129211465576, guid: 3d5bb0fc4660a1f44b1de82ea96898d7, type: 3}
       stageSprite: {fileID: 21300000, guid: 14e22d75d2639b040bcbdffa2c9dbe81, type: 3}
-      getStar: 0
-      isClear: 0
+      getStar: 3
+      isClear: 1
+    - stageIndex: 2
+      beeIndex: 3
+      getStageCoinIndex: 20
+      clearTime: 3
+      coinIndex: 10
+      beeAtk: 20
+      stagePrefab: {fileID: 6665356129211465576, guid: 3d5bb0fc4660a1f44b1de82ea96898d7, type: 3}
+      stageSprite: {fileID: 21300000, guid: 14e22d75d2639b040bcbdffa2c9dbe81, type: 3}
+      getStar: 3
+      isClear: 1
   - chapterIndex: 2
     stageDatas:
-    - stageIndex: 2
+    - stageIndex: 1
       beeIndex: 3
       getStageCoinIndex: 20
       clearTime: 7
@@ -39,7 +49,7 @@ MonoBehaviour:
       isClear: 0
   - chapterIndex: 3
     stageDatas:
-    - stageIndex: 3
+    - stageIndex: 1
       beeIndex: 3
       getStageCoinIndex: 30
       clearTime: 5
@@ -51,7 +61,7 @@ MonoBehaviour:
       isClear: 0
   - chapterIndex: 4
     stageDatas:
-    - stageIndex: 0
+    - stageIndex: 1
       beeIndex: 0
       getStageCoinIndex: 0
       clearTime: 0
@@ -63,7 +73,7 @@ MonoBehaviour:
       isClear: 0
   - chapterIndex: 5
     stageDatas:
-    - stageIndex: 5
+    - stageIndex: 1
       beeIndex: 2
       getStageCoinIndex: 30
       clearTime: 5
