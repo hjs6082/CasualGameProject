@@ -550,9 +550,7 @@ MonoBehaviour:
   chapterText: {fileID: 5815825082966329763}
   starText: {fileID: 5815825082292888729}
   starImage: {fileID: 906464861073281659}
-  myChapter:
-    chapterIndex: 0
-    stageDatas: []
+  chapterStageData: []
 --- !u!114 &7224851228556302260
 MonoBehaviour:
   m_ObjectHideFlags: 0
