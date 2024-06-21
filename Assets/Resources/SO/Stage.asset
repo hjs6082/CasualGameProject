@@ -263,3 +263,23 @@ MonoBehaviour:
       stageSprite: {fileID: 21300000, guid: 14e22d75d2639b040bcbdffa2c9dbe81, type: 3}
       getStar: 0
       isClear: 0
+    - stageIndex: 14
+      beeIndex: 2
+      getStageCoinIndex: 30
+      clearTime: 5
+      coinIndex: 20
+      beeAtk: 30
+      stagePrefab: {fileID: 8522601573255641229, guid: b5c308ba91f1b2e4b984e5866f8a9ca9, type: 3}
+      stageSprite: {fileID: 21300000, guid: 14e22d75d2639b040bcbdffa2c9dbe81, type: 3}
+      getStar: 0
+      isClear: 0
+    - stageIndex: 15
+      beeIndex: 2
+      getStageCoinIndex: 30
+      clearTime: 5
+      coinIndex: 20
+      beeAtk: 30
+      stagePrefab: {fileID: 8522601573255641229, guid: b5c308ba91f1b2e4b984e5866f8a9ca9, type: 3}
+      stageSprite: {fileID: 21300000, guid: 14e22d75d2639b040bcbdffa2c9dbe81, type: 3}
+      getStar: 0
+      isClear: 0
