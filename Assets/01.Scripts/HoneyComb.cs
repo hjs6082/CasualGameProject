@@ -9,6 +9,7 @@ public class HoneyComb : MonoBehaviour
 
     public void SpawnBee(int beeSpawnIndex, float force)
     {
+        //벌의 스폰 수만큼 벌 소환
         for (int i = 0; i <= beeSpawnIndex; i++)
         {
             GameObject bee = Instantiate(beePrefab, this.transform);
