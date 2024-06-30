@@ -29,6 +29,7 @@ public class ResultPanelItem : MonoBehaviour
 
     void Start()
     {
+        //Animation 재생
         audioSource = GetComponent<AudioSource>(); // 오디오 소스 컴포넌트 가져오기
         AnimateStars();
     }
@@ -47,6 +48,8 @@ public class ResultPanelItem : MonoBehaviour
             sequence.AppendInterval(delayBetweenStars);
         }
     }
+
+    //효과음 재생
 
     void PlayImpactSound()
     {
