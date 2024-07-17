@@ -12,8 +12,10 @@ public class HoneyComb : MonoBehaviour
         //国狼 胶迄 荐父怒 国 家券
         for (int i = 0; i <= beeSpawnIndex; i++)
         {
+            //国 家券
             GameObject bee = Instantiate(beePrefab, this.transform);
-            bee.GetComponent<Bee>().obstaclePushForce = force; 
+            //国狼 固绰 塞 利侩
+            bee.GetComponent<Bee>().obstaclePushForce = force;
         }
     }
 }
